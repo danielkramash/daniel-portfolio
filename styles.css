@@ -1,0 +1,53 @@
+/* ===== Design tokens from Figma ===== */
+:root {
+  /* Colors */
+  --color-background: #ffffff;
+  --color-text: #000000;
+
+  /* Fonts */
+  --font-script: "PP Playground", cursive;
+
+  /* Font sizes */
+  --font-size-title: 128.364px;
+  --line-height-title: 0.94;
+}
+
+/* ===== Fonts ===== */
+/* PP Playground Light, loaded from the fonts installed on this computer */
+@font-face {
+  font-family: "PP Playground";
+  src: local("PP Playground Light"), local("PPPlayground-Light");
+  font-weight: 300;
+  font-style: normal;
+}
+
+/* ===== Base ===== */
+/* Remove the browser's default spacing */
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* ===== Coming soon page ===== */
+/* Fills one screen and puts the title in the middle */
+.coming-soon {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The "Coming soon" title. On narrow screens it shrinks so it fits */
+.coming-soon-title {
+  font-family: var(--font-script);
+  font-weight: 300;
+  font-size: min(var(--font-size-title), 18vw);
+  line-height: var(--line-height-title);
+  white-space: nowrap;
+}
