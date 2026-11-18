@@ -1,24 +1,18 @@
 /* ===== Design tokens from Figma ===== */
 :root {
   /* Colors */
-  --color-background: #ffffff;
-  --color-text: #000000;
+  --color-background: #1d1d1d;
+  --color-text: #f6f6f6;
 
   /* Fonts */
-  --font-script: "PP Playground", cursive;
+  --font-main: "Inter Tight", sans-serif;
 
   /* Font sizes */
-  --font-size-title: 128.364px;
-  --line-height-title: 0.94;
-}
+  --font-size-small: 18px;
+  --letter-spacing-small: -0.01em;
 
-/* ===== Fonts ===== */
-/* PP Playground Light, loaded from the fonts installed on this computer */
-@font-face {
-  font-family: "PP Playground";
-  src: local("PP Playground Light"), local("PPPlayground-Light");
-  font-weight: 300;
-  font-style: normal;
+  /* Spacing */
+  --space-page: 40px;
 }
 
 /* ===== Base ===== */
@@ -31,23 +25,68 @@
 body {
   background-color: var(--color-background);
   color: var(--color-text);
+  font-family: var(--font-main);
 }
 
 /* ===== Coming soon page ===== */
-/* Fills one screen and puts the title in the middle */
+/* Fills one screen. Everything inside is placed by percent, like the 1440×1024 Figma frame */
 .coming-soon {
-  min-height: 100vh;
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  /* At least one screen tall. On short, wide screens it grows so the text line stays above the big title */
+  min-height: max(100vh, calc((64px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
+  min-height: max(100dvh, calc((64px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
+  overflow: hidden;
 }
 
-/* The "Coming soon" title. On narrow screens it shrinks so it fits */
+/* The line "Daniel Kramash   Portfolio   2027", centered horizontally */
+.coming-soon-info {
+  position: absolute;
+  top: calc(30% + 12.31px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: min(var(--font-size-small), 4.6vw);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-small);
+  text-transform: uppercase;
+  white-space: pre; /* keeps the wide spaces between the words, like in Figma */
+}
+
+/* The two stars at the top left */
+.star {
+  position: absolute;
+  display: block;
+}
+
+.star-large {
+  top: 9.75%;
+  left: 15.71%;
+}
+
+.star-small {
+  top: 16.78%;
+  left: 10.29%;
+}
+
+/* The big outlined "Coming soon" at the bottom, 40px from the edges */
 .coming-soon-title {
-  font-family: var(--font-script);
-  font-weight: 300;
-  font-size: min(var(--font-size-title), 18vw);
-  line-height: var(--line-height-title);
-  white-space: nowrap;
+  position: absolute;
+  right: var(--space-page);
+  bottom: var(--space-page);
+  left: var(--space-page);
+}
+
+.coming-soon-title-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* The star next to "soon". It is placed and sized relative to the title, so it grows and shrinks with it */
+.star-title {
+  position: absolute;
+  top: 35.4%;
+  left: 90.29%;
+  width: 2.825%;
+  height: auto;
+  transform: translate(-50%, -50%) rotate(39.6deg) scaleX(-1);
 }
