@@ -3,7 +3,7 @@
 
 const FIGMA_WIDTH = 1440;
 const TORCH_EASE = 0.22;      // how fast the torch follows the mouse (0-1)
-const TORCH_GROW = 0.16;      // how fast the torch grows and shrinks
+const TORCH_GROW = 0.16;      // how fast the torch shrinks when the mouse leaves the page
 const STARS_PER_CLICK = 14;   // how many stars each click throws
 const GRAVITY = 0.45;         // pull downward while falling
 const FLOOR_GAP = 2;          // the floor sits this far above the bottom of the page
@@ -43,6 +43,12 @@ const torchTarget = { x: -500, y: -500, radius: 0 };
 const torchNow = { x: -500, y: -500, radius: 0 };
 
 document.addEventListener("pointermove", (event) => {
+  // When the mouse comes into the page, the torch appears at full size right under it, with no grow animation
+  if (torchTarget.radius === 0) {
+    torchNow.x = event.clientX;
+    torchNow.y = event.clientY;
+    torchNow.radius = TORCH_RADIUS;
+  }
   torchTarget.x = event.clientX;
   torchTarget.y = event.clientY;
   torchTarget.radius = TORCH_RADIUS;
@@ -52,7 +58,7 @@ document.addEventListener("pointermove", (event) => {
 document.addEventListener("pointerdown", (event) => {
   torchTarget.x = torchNow.x = event.clientX;
   torchTarget.y = torchNow.y = event.clientY;
-  torchTarget.radius = TORCH_RADIUS;
+  torchTarget.radius = torchNow.radius = TORCH_RADIUS;
 });
 
 // When the mouse leaves the page, the torch shrinks and disappears

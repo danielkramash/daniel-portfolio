@@ -18,7 +18,7 @@
   --space-page: 60px;
 
   /* Animation sizes, in Figma units (the frame is 1440 wide) */
-  --torch-radius: 130;
+  --torch-radius: 90;
   --falling-star-size-min: 0.4;
   --falling-star-size-max: 0.9;
 }
