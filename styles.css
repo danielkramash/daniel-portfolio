@@ -4,8 +4,11 @@
   --color-background: #1d1d1d;
   --color-text: #f6f6f6;
 
+  /* Lines: every outline on the page */
+  --stroke-width: 0.7;
+
   /* Fonts */
-  --font-main: "ABC Diatype", sans-serif;
+  --font-main: "Suisse Intl", sans-serif;
 
   /* Font sizes */
   --font-size-small: 16px;
@@ -13,13 +16,18 @@
 
   /* Spacing */
   --space-page: 60px;
+
+  /* Animation sizes, in Figma units (the frame is 1440 wide) */
+  --torch-radius: 130;
+  --falling-star-size-min: 0.4;
+  --falling-star-size-max: 0.9;
 }
 
 /* ===== Fonts ===== */
-/* ABC Diatype Regular, loaded from the fonts folder */
+/* Suisse Intl Regular, loaded from the fonts folder */
 @font-face {
-  font-family: "ABC Diatype";
-  src: url("fonts/ABCDiatypeTrial-Regular.otf") format("opentype");
+  font-family: "Suisse Intl";
+  src: url("fonts/SuisseIntlTrial-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
 }
@@ -37,6 +45,14 @@ body {
   font-family: var(--font-main);
 }
 
+/* Every outlined shape: line only, no fill, always the same thickness */
+.line path {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: var(--stroke-width);
+  vector-effect: non-scaling-stroke;
+}
+
 /* ===== Coming soon page ===== */
 /* Fills one screen. Everything inside is placed by percent, like the 1440×1024 Figma frame */
 .coming-soon {
@@ -45,12 +61,16 @@ body {
   min-height: max(100vh, calc((84px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
   min-height: max(100dvh, calc((84px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
   overflow: hidden;
+  background-color: var(--color-background);
+  cursor: none;        /* the torch replaces the mouse cursor */
+  touch-action: none;  /* on a phone, dragging moves the torch instead of scrolling */
+  user-select: none;
 }
 
 /* The line "Daniel Kramash   Portfolio   2027", centered horizontally */
 .coming-soon-info {
   position: absolute;
-  top: calc(30% + 12.31px);
+  top: calc(30% + 12.81px);
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: min(var(--font-size-small), 4.6vw);
@@ -60,20 +80,25 @@ body {
   white-space: pre; /* keeps the wide spaces between the words, like in Figma */
 }
 
-/* The two stars at the top left */
+/* The three star drawings. They never move; clicking one throws falling stars.
+   Their width is a percent of the page width, so they keep their Figma size next to everything else */
 .star {
   position: absolute;
   display: block;
+  height: auto;
+  overflow: visible;
 }
 
 .star-large {
   top: 9.75%;
   left: 15.71%;
+  width: 3.013%; /* 43.39 of 1440 */
 }
 
 .star-small {
   top: 16.78%;
   left: 10.29%;
+  width: 2.668%; /* 38.42 of 1440 */
 }
 
 /* The big outlined "Coming soon" at the bottom, 60px from the edges */
@@ -88,14 +113,45 @@ body {
   display: block;
   width: 100%;
   height: auto;
+  overflow: visible;
 }
 
 /* The star next to "soon". It is placed and sized relative to the title, so it grows and shrinks with it */
 .star-title {
-  position: absolute;
   top: 32.5%;
   left: 87.72%;
-  width: 2.911%;
-  height: auto;
+  width: 2.911%; /* 38.42 of the title's 1320 */
   transform: translate(-50%, -50%) rotate(39.6deg) scaleX(-1);
+}
+
+/* ===== Falling stars ===== */
+/* A layer over the whole page. Clicks go through it */
+.falling-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* The falling stars are copies of one shape, so they get their line style from the group around them */
+.falling-stars-floor {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: var(--stroke-width);
+}
+
+/* ===== Torch ===== */
+/* A light circle that flips colors under it: the background turns light and the lines turn dark */
+.torch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background-color: var(--color-text);
+  mix-blend-mode: difference;
+  pointer-events: none;
 }
