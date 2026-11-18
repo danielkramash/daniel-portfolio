@@ -8,11 +8,11 @@
   --font-main: "Inter Tight", sans-serif;
 
   /* Font sizes */
-  --font-size-small: 18px;
+  --font-size-small: 16px;
   --letter-spacing-small: -0.01em;
 
   /* Spacing */
-  --space-page: 40px;
+  --space-page: 60px;
 }
 
 /* ===== Base ===== */
@@ -33,15 +33,15 @@ body {
 .coming-soon {
   position: relative;
   /* At least one screen tall. On short, wide screens it grows so the text line stays above the big title */
-  min-height: max(100vh, calc((64px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
-  min-height: max(100dvh, calc((64px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
+  min-height: max(100vh, calc((84px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
+  min-height: max(100dvh, calc((84px + (100vw - 2 * var(--space-page)) * 0.2978) / 0.7));
   overflow: hidden;
 }
 
 /* The line "Daniel Kramash   Portfolio   2027", centered horizontally */
 .coming-soon-info {
   position: absolute;
-  top: calc(30% + 12.31px);
+  top: calc(30% + 12.81px);
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: min(var(--font-size-small), 4.6vw);
@@ -67,7 +67,7 @@ body {
   left: 10.29%;
 }
 
-/* The big outlined "Coming soon" at the bottom, 40px from the edges */
+/* The big outlined "Coming soon" at the bottom, 60px from the edges */
 .coming-soon-title {
   position: absolute;
   right: var(--space-page);
@@ -84,9 +84,9 @@ body {
 /* The star next to "soon". It is placed and sized relative to the title, so it grows and shrinks with it */
 .star-title {
   position: absolute;
-  top: 35.4%;
-  left: 90.29%;
-  width: 2.825%;
+  top: 32.5%;
+  left: 87.72%;
+  width: 2.911%;
   height: auto;
   transform: translate(-50%, -50%) rotate(39.6deg) scaleX(-1);
 }
