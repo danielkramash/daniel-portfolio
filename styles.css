@@ -5,7 +5,7 @@
   --color-text: #f6f6f6;
 
   /* Fonts */
-  --font-main: "Inter Tight", sans-serif;
+  --font-main: "ABC Diatype", sans-serif;
 
   /* Font sizes */
   --font-size-small: 16px;
@@ -13,6 +13,15 @@
 
   /* Spacing */
   --space-page: 60px;
+}
+
+/* ===== Fonts ===== */
+/* ABC Diatype Regular, loaded from the fonts folder */
+@font-face {
+  font-family: "ABC Diatype";
+  src: url("fonts/ABCDiatypeTrial-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* ===== Base ===== */
@@ -41,7 +50,7 @@ body {
 /* The line "Daniel Kramash   Portfolio   2027", centered horizontally */
 .coming-soon-info {
   position: absolute;
-  top: calc(30% + 12.81px);
+  top: calc(30% + 12.31px);
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: min(var(--font-size-small), 4.6vw);
