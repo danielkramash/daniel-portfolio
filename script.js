@@ -3,7 +3,6 @@
 
 const FIGMA_WIDTH = 1440;
 const TORCH_EASE = 0.22;      // how fast the torch follows the mouse (0-1)
-const TORCH_GROW = 0.16;      // how fast the torch shrinks when the mouse leaves the page
 const STARS_PER_CLICK = 14;   // how many stars each click throws
 const GRAVITY = 0.45;         // pull downward while falling
 const FLOOR_GAP = 2;          // the floor sits this far above the bottom of the page
@@ -39,39 +38,48 @@ measurePage();
 window.addEventListener("resize", measurePage);
 
 /* ===== Torch ===== */
-const torchTarget = { x: -500, y: -500, radius: 0 };
-const torchNow = { x: -500, y: -500, radius: 0 };
+const torchTarget = { x: 0, y: 0 };
+const torchNow = { x: 0, y: 0 };
+let torchVisible = false;
+
+// The torch appears right under the mouse at full size. No grow animation and no sliding in from the edge
+function showTorchAt(x, y) {
+  torchTarget.x = torchNow.x = x;
+  torchTarget.y = torchNow.y = y;
+  torchVisible = true;
+}
+
+// The torch disappears at once. No shrink animation
+function hideTorch() {
+  torchVisible = false;
+}
 
 document.addEventListener("pointermove", (event) => {
-  // When the mouse comes into the page, the torch appears at full size right under it, with no grow animation
-  if (torchTarget.radius === 0) {
-    torchNow.x = event.clientX;
-    torchNow.y = event.clientY;
-    torchNow.radius = TORCH_RADIUS;
+  if (!torchVisible) {
+    showTorchAt(event.clientX, event.clientY);
+    return;
   }
   torchTarget.x = event.clientX;
   torchTarget.y = event.clientY;
-  torchTarget.radius = TORCH_RADIUS;
 });
 
 // On a touch screen the torch jumps straight to the finger
 document.addEventListener("pointerdown", (event) => {
-  torchTarget.x = torchNow.x = event.clientX;
-  torchTarget.y = torchNow.y = event.clientY;
-  torchTarget.radius = torchNow.radius = TORCH_RADIUS;
+  showTorchAt(event.clientX, event.clientY);
 });
 
-// When the mouse leaves the page, the torch shrinks and disappears
-document.documentElement.addEventListener("pointerleave", () => {
-  torchTarget.radius = 0;
+// The mouse left the browser window
+document.addEventListener("mouseout", (event) => {
+  if (!event.relatedTarget) hideTorch();
 });
+document.documentElement.addEventListener("pointerleave", hideTorch);
+window.addEventListener("blur", hideTorch);
 
 function drawTorch() {
   torchNow.x += (torchTarget.x - torchNow.x) * TORCH_EASE;
   torchNow.y += (torchTarget.y - torchNow.y) * TORCH_EASE;
-  torchNow.radius += (torchTarget.radius - torchNow.radius) * TORCH_GROW;
   // Size the circle in real pixels so its edge stays sharp
-  const radiusInPixels = Math.max(0, torchNow.radius) * scale;
+  const radiusInPixels = torchVisible ? TORCH_RADIUS * scale : 0;
   torch.style.width = torch.style.height = `${radiusInPixels * 2}px`;
   torch.style.transform = `translate(${torchNow.x - radiusInPixels}px, ${torchNow.y - radiusInPixels}px)`;
 }
